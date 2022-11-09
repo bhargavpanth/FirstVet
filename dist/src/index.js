@@ -14,13 +14,13 @@ const scheduleParser = (schedules) => {
         scheduleId: veterinarianInfo.scheduleId,
         employeeId: veterinarianInfo.employeeId,
         employeeName: veterinarianInfo.employeeName,
-        availableHours: veterinarianInfo.availableHours.map(splitAvailabilityByFifteenMinuteSlots).flat(1)
+        availableHours: veterinarianInfo.availableHours.flatMap(splitAvailabilityByFifteenMinuteSlots)
     }))
-        .map(veterinarianInfo => veterinarianInfo.availableHours.map(hours => ({
+        .flatMap(veterinarianInfo => veterinarianInfo.availableHours.map(hours => ({
         name: veterinarianInfo.employeeName,
         start: hours.start,
         end: hours.end
-    }))).flat(1)
+    })))
         .sort((scheduleOne, scheduleTwo) => scheduleOne.start - scheduleTwo.start);
 };
 exports.scheduleParser = scheduleParser;
